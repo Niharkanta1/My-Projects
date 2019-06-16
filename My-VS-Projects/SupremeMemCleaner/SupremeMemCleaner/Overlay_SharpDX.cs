@@ -3,14 +3,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using SharpDX.Direct2D1;
 using Factory = SharpDX.Direct2D1.Factory;
-using FontFactory = SharpDX.DirectWrite.Factory;
 using Format = SharpDX.DXGI.Format;
 using SharpDX;
 using SharpDX.DirectWrite;
 using System.Threading;
 using System.Runtime.InteropServices;
 using SharpDX.Mathematics.Interop;
-using System.IO;
 
 namespace DirectX_Renderer
 {
@@ -79,11 +77,11 @@ namespace DirectX_Renderer
         private Factory factory;
 
         const string WINDOW_NAME = "EscapeFromTarkov";
-
+        public static bool ingame = false;
         private IntPtr handle;
         private IntPtr gameHandle = FindWindow(null, WINDOW_NAME);
         private Thread threadDX = null;
-        
+
         public struct RECT
         {
             public int left, top, right, bottom;
@@ -114,7 +112,7 @@ namespace DirectX_Renderer
         private const int WM_MOUSEACTIVATE = 0x0021;
         private const int MA_NOACTIVATEANDEAT = 0x0004;
 
-        EasyMemoryCleaner.EasyMemoryCleaner cheat = null;
+        SupremeMemCleaner.SupremeMemCleaner cheat = null;
 
         public Overlay()
         {
@@ -155,11 +153,9 @@ namespace DirectX_Renderer
                 PresentOptions = PresentOptions.None
             };
 
-            //Init DirectX
+            //Init DirectX         
             device = new WindowRenderTarget(factory, new RenderTargetProperties(new PixelFormat(Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)), renderProperties);
-
-            cheat = new EasyMemoryCleaner.EasyMemoryCleaner(new UnityEngine.Vector2(this.Size.Width, this.Size.Height));
-
+            cheat = new SupremeMemCleaner.SupremeMemCleaner(new UnityEngine.Vector2(this.Size.Width, this.Size.Height));
             Thread refreshSetupThread = new Thread(new ThreadStart(cheat.ReadWorlds));
             refreshSetupThread.IsBackground = true;
             refreshSetupThread.Start();
@@ -168,18 +164,17 @@ namespace DirectX_Renderer
             threadDX.Priority = ThreadPriority.Highest;
             threadDX.IsBackground = true;
             threadDX.Start();
+           
         }
 
         private void _loop_DXThread(object sender)
         {
-            while (true)
+            while (ingame)
             {
                 device.BeginDraw();
                 device.Clear(SharpDX.Color.Transparent);
                 device.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Default;
-
                 cheat.Draw(device);
-
                 device.EndDraw();
             }
         }

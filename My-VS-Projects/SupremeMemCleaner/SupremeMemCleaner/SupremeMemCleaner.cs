@@ -200,7 +200,7 @@ namespace SupremeMemCleaner
 
             UnityEngine.Vector3 LocalLocation = new UnityEngine.Vector3();
 
-            int Players = 0, Scavs = 0, PScavs = 0, totalPlayers= players.Length;
+            int Players = 0, Scavs = 0, PScavs = 0, totalPlayers= players.Length-1;
 
             foreach (Player p in players)
             {
@@ -296,7 +296,7 @@ namespace SupremeMemCleaner
             rend.DrawText("Players: " + Players, new RawVector2(5, 5), solidColorBrush, watermarkFont);
             rend.DrawText("Player Scavs: " + PScavs, new RawVector2(5, 15), solidColorBrush, watermarkFont);
             rend.DrawText("Scavs: " + Scavs, new RawVector2(5, 25), solidColorBrush, watermarkFont);
-            rend.DrawText("Scavs: " + totalPlayers, new RawVector2(5, 35), solidColorBrush, watermarkFont);
+            rend.DrawText("Total: " + totalPlayers, new RawVector2(5, 35), solidColorBrush, watermarkFont);
             watermarkFont.Dispose();
             solidColorBrush.Dispose();
             espFont.Dispose();

@@ -144,10 +144,12 @@ namespace SupremeMemCleaner
             return sb.ToString();
         }
 
-        public bool IsScavBoss(string name)
+        public string IfIsScavBoss(string name)
         {
             string converted = CyrilicToLatin(name);
-            return (converted == "Reshala" || converted == "Killa");
+            if (converted == "Reshala" || converted == "Killa")
+                return converted;
+            else return "Scav";
         }
     }
 

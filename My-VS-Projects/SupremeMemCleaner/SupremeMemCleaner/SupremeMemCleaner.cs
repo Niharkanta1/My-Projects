@@ -191,10 +191,8 @@ namespace SupremeMemCleaner
         public void Draw(WindowRenderTarget device)
         {
             rend.device = device;
-
             SolidColorBrush solidColorBrush = new SolidColorBrush(device, SharpDX.Color.Red);
             TextFormat espFont = new TextFormat(new FontFactory(), "Tahoma Bold", 10f);
-
             System.Threading.Thread.Sleep(5);
 
             if (LGW == null || GW == null || players == null || FPSCamera == null)
@@ -202,12 +200,11 @@ namespace SupremeMemCleaner
 
             UnityEngine.Vector3 LocalLocation = new UnityEngine.Vector3();
 
-            int Players = 0, Scavs = 0, PScavs = 0;
+            int Players = 0, Scavs = 0, PScavs = 0, totalPlayers= players.Length;
 
             foreach (Player p in players)
             {
                 bool Local = p.IsLocal();
-
                 if (Local)
                 {
                     local = p;
@@ -257,22 +254,19 @@ namespace SupremeMemCleaner
                 UnityEngine.Vector2 wSize;
                 wSize.y = Math.Abs(headW2S.y - baseW2S.y) * 1.3f;
                 wSize.x = (wSize.y / 1.7f);
-
-                System.Drawing.Rectangle boxRect = new System.Drawing.Rectangle((int)(baseW2S.x - (wSize.x / 2)), (int)(baseW2S.y - wSize.y), (int)wSize.x, (int)wSize.y);
-                
+                System.Drawing.Rectangle boxRect = new System.Drawing.Rectangle((int)(baseW2S.x - (wSize.x / 2)), (int)(baseW2S.y - wSize.y), (int)wSize.x, (int)wSize.y);                
                 rend.DrawBoxESP(solidColorBrush, boxRect);
 
                 string pName = "N/A";
-
                 if (IsPlayer == false)
                 {
                     if (RegisterDate != 0)
                     {
-                        pName = "Player Scav";
+                       pName = "Player Scav";
                     }
                     else
                     {
-                        pName = "Scav";
+                        pName = pInfo.IfIsScavBoss(pInfo.GetName()); //returns "Scav" or Boss Name;
                     }
                 }
                 else
@@ -293,17 +287,16 @@ namespace SupremeMemCleaner
                     headSZ = 20;
                 headSZ = 2 + (20 / _Distance);
                 rend.DrawCircle(new Ellipse(new RawVector2(headW2S.x, headW2S.y - headSZ), headSZ, headSZ), solidColorBrush, false);
-
                 rend.DrawText(pName + " (" + (int)_Distance + "m)", new RawVector2(boxRect.Left, boxRect.Bottom + 1), solidColorBrush, espFont);
                 solidColorBrush.Color = Color.Red;
             }
 
             solidColorBrush.Color = Color.White;
-            TextFormat watermarkFont = new TextFormat(new FontFactory(), "Tahoma", 15f);
+            TextFormat watermarkFont = new TextFormat(new FontFactory(), "Tahoma", 12f);
             rend.DrawText("Players: " + Players, new RawVector2(5, 5), solidColorBrush, watermarkFont);
-            rend.DrawText("Player Scavs: " + PScavs, new RawVector2(5, 20), solidColorBrush, watermarkFont);
-            rend.DrawText("Scavs: " + Scavs, new RawVector2(5, 35), solidColorBrush, watermarkFont);
-
+            rend.DrawText("Player Scavs: " + PScavs, new RawVector2(5, 15), solidColorBrush, watermarkFont);
+            rend.DrawText("Scavs: " + Scavs, new RawVector2(5, 25), solidColorBrush, watermarkFont);
+            rend.DrawText("Scavs: " + totalPlayers, new RawVector2(5, 35), solidColorBrush, watermarkFont);
             watermarkFont.Dispose();
             solidColorBrush.Dispose();
             espFont.Dispose();

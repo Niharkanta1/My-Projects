@@ -77,7 +77,7 @@ namespace DirectX_Renderer
         private Factory factory;
 
         const string WINDOW_NAME = "EscapeFromTarkov";
-        public static bool ingame = false;
+        public static bool ingame = true;
         private IntPtr handle;
         private IntPtr gameHandle = FindWindow(null, WINDOW_NAME);
         private Thread threadDX = null;
@@ -174,7 +174,10 @@ namespace DirectX_Renderer
                 device.BeginDraw();
                 device.Clear(SharpDX.Color.Transparent);
                 device.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Default;
-                cheat.Draw(device);
+            //  if (!SupremeMemCleaner.SupremeMemCleaner.playingAsScav)
+            //       cheat.Draw(device);
+            //  else
+                cheat.DrawAll(device);
                 device.EndDraw();
             }
         }

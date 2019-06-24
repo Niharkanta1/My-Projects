@@ -6,6 +6,7 @@ namespace SupremeMemCleaner
 {
     public class Player : BaseClass
     {
+        public Player() { }
         public Player(long addr, Memory mem) : base(addr, mem) { }
 
         public IntPtr GetBoneMatrix()
@@ -142,6 +143,12 @@ namespace SupremeMemCleaner
                 else sb.Append(c);
             }
             return sb.ToString();
+        }
+
+        public string getScavName(string name)
+        {
+            string converted = CyrilicToLatin(name);
+            return converted;
         }
 
         public string IfIsScavBoss(string name)

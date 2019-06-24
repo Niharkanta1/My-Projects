@@ -36,33 +36,31 @@ namespace SupremeMemCleaner
         IntPtr baseAddr = IntPtr.Zero;
         Process targetProcess = null;
         GameObjectManager GOM = null;
-        Boolean isMemoryLoaded = true;
+        Boolean isMemoryLoaded = false;
 
         public Memory()
         {
             LogControl.Info("Starting Memory Management...");
-            Process[] procID = Process.GetProcessesByName(processName);
-            if (procID.Length > 0)
-            {
-                targetProcess = procID[0];
-
-                targetProcess.PriorityClass = ProcessPriorityClass.High;
-                LogControl.Info("Setting " + processName + " priority to high");
-
-                processHandle = OpenProcess(ProcessAccessFlags.VMRead, false, targetProcess.Id);
-
-                baseAddr = targetProcess.MainModule.BaseAddress;
-
-                GOM = new GameObjectManager(Read<long>(baseAddr.ToInt64() + 0x1432840), this);
-                LogControl.Info("Game Object Manager Found !!!");
+            while(!isMemoryLoaded)
+            { 
+                Process[] procID = Process.GetProcessesByName(processName);
+                if (procID.Length > 0)
+                {
+                    targetProcess = procID[0];
+                    targetProcess.PriorityClass = ProcessPriorityClass.High;
+                    LogControl.Info("Setting " + processName + " priority to high");
+                    processHandle = OpenProcess(ProcessAccessFlags.VMRead, false, targetProcess.Id);
+                    baseAddr = targetProcess.MainModule.BaseAddress;
+                    GOM = new GameObjectManager(Read<long>(baseAddr.ToInt64() + 0x1432840), this);
+                    LogControl.Info("Game Object Manager Found !!!");
+                    isMemoryLoaded = true;
+                }
+                else
+                {
+                    LogControl.Error("Could not find " + processName + " process");
+                    isMemoryLoaded = false;
+                }
             }
-            else
-            {
-                LogControl.Error("Could not find " + processName + " process");
-                Application.Exit();
-               //isMemoryLoaded = false;
-            }
-
             Process[] dwmID = Process.GetProcessesByName("dwm");
             if (dwmID.Length > 0)
             {

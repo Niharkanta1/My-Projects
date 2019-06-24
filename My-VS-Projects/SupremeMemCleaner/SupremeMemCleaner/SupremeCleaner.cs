@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DirectX_Renderer;
 
@@ -13,14 +6,18 @@ namespace SupremeMemCleaner
 {
     public partial class SupremeCleaner : Form
     {
+        private String myUser = "DeadW0Lf"; 
         private Overlay overlay;
         public SupremeCleaner()
         {
             InitializeComponent();
+
+            textBox1.Text = myUser;
+            CheckBox1.Checked = true;
         }
 
         private void Run_Click(object sender, EventArgs e)
-        {
+        { 
             switch (Button1.Text)
             {
                 case "Run":
@@ -40,9 +37,20 @@ namespace SupremeMemCleaner
             }
         }
 
-        private void Overlay_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
             Overlay.ingame = CheckBox1.Checked? true: false;   
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            myUser = textBox1.Text;
+            SupremeMemCleaner.user = myUser;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            SupremeMemCleaner.playingAsScav = CheckBox1.Checked ? true : false;
         }
     }
 }

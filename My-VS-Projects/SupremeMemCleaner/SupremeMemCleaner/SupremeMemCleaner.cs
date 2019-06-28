@@ -164,7 +164,7 @@ namespace SupremeMemCleaner
         {
             while (Overlay.ingame)
             {
-                System.Threading.Thread.Sleep(30);
+                System.Threading.Thread.Sleep(10);
 
                 paintCalled++;
 
@@ -305,7 +305,7 @@ namespace SupremeMemCleaner
             rend.device = device;
             SolidColorBrush solidColorBrush = new SolidColorBrush(device, SharpDX.Color.Gray);
             TextFormat espFont = new TextFormat(new FontFactory(), "Tahoma Bold", 10f);
-            System.Threading.Thread.Sleep(30);
+            System.Threading.Thread.Sleep(10);
 
             if (LGW == null || GW == null || players == null || FPSCamera == null)
                 return;

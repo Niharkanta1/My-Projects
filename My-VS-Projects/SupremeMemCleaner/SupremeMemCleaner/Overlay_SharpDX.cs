@@ -107,10 +107,13 @@ namespace DirectX_Renderer
         //Styles
         private const int WS_EX_NOACTIVATE = 0x08000000;
         private const int WS_EX_TOPMOST = 0x00000008;
+        private const int WS_EX_LAYERED = 0x00080000;
+        private const long WS_EX_TRANSPARENT = 0x00000020L;
         private const int WM_ACTIVATE = 6;
         private const int WA_INACTIVE = 0;
         private const int WM_MOUSEACTIVATE = 0x0021;
         private const int MA_NOACTIVATEANDEAT = 0x0004;
+        private const long WS_POPUP = 0x80000000L;
 
         SupremeMemCleaner.SupremeMemCleaner cheat = null;
 
@@ -122,7 +125,7 @@ namespace DirectX_Renderer
 
             this.handle = Handle;
             int initialStyle = GetWindowLong(this.Handle, -20);
-            SetWindowLong(this.Handle, -20, initialStyle | 0x80000 | 0x20);
+            SetWindowLong(this.Handle, -20, initialStyle);
             RECT rect;
             GetWindowRect(gameHandle, out rect);
             this.Size = new Size(rect.right - rect.left, rect.bottom - rect.top);
@@ -174,9 +177,6 @@ namespace DirectX_Renderer
                 device.BeginDraw();
                 device.Clear(SharpDX.Color.Transparent);
                 device.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Default;
-            //  if (!SupremeMemCleaner.SupremeMemCleaner.playingAsScav)
-            //       cheat.Draw(device);
-            //  else
                 cheat.DrawAll(device);
                 device.EndDraw();
             }
@@ -191,9 +191,11 @@ namespace DirectX_Renderer
             get
             {
                 CreateParams pm = base.CreateParams;
-                pm.ExStyle |= 0x80;
-                pm.ExStyle |= WS_EX_TOPMOST; // make the form topmost
-                pm.ExStyle |= WS_EX_NOACTIVATE; // prevent the form from being activated
+               //pm.ExStyle |= 0x80;
+               //pm.ExStyle |= WS_EX_TOPMOST; // make the form topmost
+               //pm.ExStyle |= WS_EX_NOACTIVATE; // prevent the form from being activated
+                pm.ExStyle |= WS_EX_LAYERED;
+                pm.ExStyle |= (int)WS_EX_TRANSPARENT;
                 return pm;
             }
         }

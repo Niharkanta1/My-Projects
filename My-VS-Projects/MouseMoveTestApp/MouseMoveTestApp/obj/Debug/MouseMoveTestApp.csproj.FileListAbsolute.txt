@@ -1,0 +1,7 @@
+C:\VSWorkspace\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\obj\Debug\MouseMoveTestApp.csprojAssemblyReference.cache
+C:\VSWorkspace\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\obj\Debug\MouseMoveTestApp.csproj.CoreCompileInputs.cache
+C:\VSWorkspace\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\bin\Debug\MouseMoveTestApp.exe.config
+C:\VSWorkspace\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\bin\Debug\MouseMoveTestApp.exe
+C:\VSWorkspace\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\bin\Debug\MouseMoveTestApp.pdb
+C:\VSWorkspace\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\obj\Debug\MouseMoveTestApp.exe
+C:\VSWorkspace\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\obj\Debug\MouseMoveTestApp.pdb

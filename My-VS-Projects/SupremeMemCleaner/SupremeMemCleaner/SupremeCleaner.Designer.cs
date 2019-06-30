@@ -32,6 +32,7 @@
             this.CheckBox1 = new System.Windows.Forms.CheckBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // Button1
@@ -47,6 +48,8 @@
             // CheckBox1
             // 
             this.CheckBox1.AutoSize = true;
+            this.CheckBox1.Checked = true;
+            this.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckBox1.Location = new System.Drawing.Point(13, 70);
             this.CheckBox1.Name = "CheckBox1";
             this.CheckBox1.Size = new System.Drawing.Size(92, 17);
@@ -68,17 +71,29 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Location = new System.Drawing.Point(125, 70);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(80, 17);
+            this.checkBox2.Size = new System.Drawing.Size(58, 17);
             this.checkBox2.TabIndex = 3;
-            this.checkBox2.Text = "Playing as SCAV";
+            this.checkBox2.Text = "Aimbot";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(125, 94);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(62, 17);
+            this.checkBox3.TabIndex = 4;
+            this.checkBox3.Text = "Smooth";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // SupremeCleaner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(272, 138);
+            this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.CheckBox1);
@@ -87,7 +102,7 @@
             this.Text = "Supreme Memory Cleaner";
             this.ResumeLayout(false);
             this.PerformLayout();
-            
+
         }
 
         #endregion
@@ -96,6 +111,7 @@
         private System.Windows.Forms.CheckBox CheckBox1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
     }
 }
 

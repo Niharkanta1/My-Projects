@@ -21,8 +21,8 @@ namespace Overwolf
             ThreadManager.Add("Watcher", Watcher.Run);
             ThreadManager.Add("Reader", Reader.Run);
 
-            ThreadManager.Add("ESP", ESP.Run);
-            ThreadManager.Add("Aimbot", Aimbot.Run);
+           // ThreadManager.Add("ESP", ESP.Run);
+          //  ThreadManager.Add("Aimbot", Aimbot.Run);
 
             ThreadManager.ToggleThread("Watcher");
             ThreadManager.ToggleThread("Reader");

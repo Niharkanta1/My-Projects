@@ -11,9 +11,8 @@ namespace SupremeMemCleaner
         public SupremeCleaner()
         {
             InitializeComponent();
-
             textBox1.Text = myUser;
-            CheckBox1.Checked = true;
+            checkBox3.Enabled = false;
         }
 
         private void Run_Click(object sender, EventArgs e)
@@ -21,20 +20,18 @@ namespace SupremeMemCleaner
             switch (Button1.Text)
             {
                 case "Run":
-                    LogControl.Info("Button Press: Run");
                     overlay = new Overlay();
                     overlay.Show();
                     Button1.Text = "Stop";
                     break;
 
                 case "Stop":
-                    LogControl.Info("Button Press: Stop");
                     Overlay.ingame = false;
                     overlay.Close();
                     overlay = null;
                     Button1.Text = "Run";
                     break;
-            }
+            }           
         }
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
@@ -50,7 +47,21 @@ namespace SupremeMemCleaner
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            SupremeMemCleaner.playingAsScav = CheckBox1.Checked ? true : false;
+            if (checkBox2.Checked)
+            {
+                SupremeMemCleaner.aimbot = true;
+                checkBox3.Enabled = true;
+            }
+            else
+            {
+                SupremeMemCleaner.aimbot = false;
+                checkBox3.Enabled = false;
+            }
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            SupremeMemCleaner.smooth = checkBox2.Checked ? true : false;
         }
     }
 }

@@ -13,6 +13,7 @@ namespace SupremeMemCleaner
             InitializeComponent();
             textBox1.Text = myUser;
             checkBox3.Enabled = false;
+            checkBox4.Checked = false;
         }
 
         private void Run_Click(object sender, EventArgs e)
@@ -51,6 +52,7 @@ namespace SupremeMemCleaner
             {
                 SupremeMemCleaner.aimbot = true;
                 checkBox3.Enabled = true;
+                checkBox3.Checked = true;
             }
             else
             {
@@ -62,6 +64,11 @@ namespace SupremeMemCleaner
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
             SupremeMemCleaner.smooth = checkBox2.Checked ? true : false;
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            SupremeMemCleaner.playingAsScav = checkBox4.Checked ? true : false;
         }
     }
 }

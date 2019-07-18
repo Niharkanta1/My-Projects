@@ -177,7 +177,6 @@ namespace DirectX_Renderer
                 device.BeginDraw();
                 device.Clear(SharpDX.Color.Transparent);
                 device.TextAntialiasMode = SharpDX.Direct2D1.TextAntialiasMode.Default;
-                //cheat.Draw(device);
                 cheat.DrawAll(device);
                 device.EndDraw();
             }

@@ -5,3 +5,10 @@ C:\VSWorkspace\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\bin\
 C:\VSWorkspace\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\bin\Debug\MouseMoveTestApp.pdb
 C:\VSWorkspace\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\obj\Debug\MouseMoveTestApp.exe
 C:\VSWorkspace\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\obj\Debug\MouseMoveTestApp.pdb
+D:\CODING\Visual Studio\My Projects\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\bin\Debug\MouseMoveTestApp.exe.config
+D:\CODING\Visual Studio\My Projects\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\bin\Debug\MouseMoveTestApp.exe
+D:\CODING\Visual Studio\My Projects\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\bin\Debug\MouseMoveTestApp.pdb
+D:\CODING\Visual Studio\My Projects\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\obj\Debug\MouseMoveTestApp.csprojAssemblyReference.cache
+D:\CODING\Visual Studio\My Projects\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\obj\Debug\MouseMoveTestApp.csproj.CoreCompileInputs.cache
+D:\CODING\Visual Studio\My Projects\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\obj\Debug\MouseMoveTestApp.exe
+D:\CODING\Visual Studio\My Projects\My-Projects\My-VS-Projects\MouseMoveTestApp\MouseMoveTestApp\obj\Debug\MouseMoveTestApp.pdb

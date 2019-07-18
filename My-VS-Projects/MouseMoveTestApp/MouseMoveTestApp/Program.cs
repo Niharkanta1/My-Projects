@@ -21,8 +21,8 @@ namespace MouseMoveTestApp
             Point newPos = new Point();
             newPos.X = 0;
             newPos.Y = 0;
-            LinearSmoothMove(newPos, 100);
-            //MoveMouse(0, 0, 0, 0);
+           LinearSmoothMove(newPos, 100);
+            //  MoveMouse(0, 0, 0, 0);
         }
 
         #region Method-1
@@ -35,7 +35,7 @@ namespace MouseMoveTestApp
             y += random.Next(ry);
 
             double randomSpeed = Math.Max((random.Next(mouseSpeed) / 2.0 + mouseSpeed) / 10.0, 0.1);
-            randomSpeed = 1;
+           // randomSpeed = 2;
             WindMouse(c.X, c.Y, x, y, 9.0, 3.0, 10.0 / randomSpeed,
                 15.0 / randomSpeed, 10.0 * randomSpeed, 10.0 * randomSpeed);
         }
@@ -133,6 +133,7 @@ namespace MouseMoveTestApp
         {
             Point lpPoint;
             GetCursorPos(out lpPoint);
+            Console.WriteLine(lpPoint.X + " " + lpPoint.Y);
             //bool success = User32.GetCursorPos(out lpPoint);
             // if (!success)
 

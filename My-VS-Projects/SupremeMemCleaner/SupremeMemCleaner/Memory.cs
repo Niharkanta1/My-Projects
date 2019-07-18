@@ -51,6 +51,7 @@ namespace SupremeMemCleaner
                     LogControl.Info("Setting " + processName + " priority to high");
                     processHandle = OpenProcess(ProcessAccessFlags.VMRead, false, targetProcess.Id);
                     baseAddr = targetProcess.MainModule.BaseAddress;
+                   // Console.WriteLine("Base: " + baseAddr + " GOM"+Read<long>(baseAddr.ToInt64() + 0x1432840));
                     GOM = new GameObjectManager(Read<long>(baseAddr.ToInt64() + 0x1432840), this);
                     LogControl.Info("Game Object Manager Found !!!");
                     isMemoryLoaded = true;

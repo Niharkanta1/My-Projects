@@ -22,8 +22,6 @@ namespace SupremeMemCleaner
         [DllImport("user32.dll")]
         static extern void mouse_event(uint dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
 
-        static Random random = new Random();
-
         double lowDistMax = 35;
         private int AimSpeed = 1; // Default speed = high speed for aimbot (higher value = smoother)
         float centerX = 800, centerY = 450;
@@ -70,6 +68,7 @@ namespace SupremeMemCleaner
             public Vector4f vec1;
             public Vector4f vec2;
         };
+
         private IntPtr GetPtr(IntPtr addr, int offset, Memory mem)
         {
             return IntPtr.Add((IntPtr)(mem.Read<long>((long)addr)), offset);
@@ -173,6 +172,7 @@ namespace SupremeMemCleaner
         private Renderer rend = new Renderer();
         internal static bool aimbot = true;
         internal static bool smooth = false;
+        internal static int aimCorrection;
 
         public void ReadWorlds()
         {
@@ -531,7 +531,7 @@ namespace SupremeMemCleaner
         {
             rend.device = device;
             SolidColorBrush solidColorBrush = new SolidColorBrush(device, SharpDX.Color.Gray);
-            TextFormat espFont = new TextFormat(new FontFactory(), "Tahoma Bold", 10f);
+            TextFormat espFont = new TextFormat(new FontFactory(), "Tahoma Bold", 8f);
             System.Threading.Thread.Sleep(2);
 
             if (LGW == null || GW == null || players == null || FPSCamera == null)
@@ -593,7 +593,7 @@ namespace SupremeMemCleaner
                 {
                     lowDist = distance;
                     aimPosX = headW2S.x;
-                    aimPosY = headW2S.y - (2*headSZ) - 1;
+                    aimPosY = headW2S.y - (2*headSZ) - aimCorrection;
                 }
 
                 UnityEngine.Vector2 wSize;
@@ -625,7 +625,7 @@ namespace SupremeMemCleaner
                 rend.RectHealthBar(baseW2S.x - ((wSize.x + 12) / 2), (baseW2S.y - wSize.y - 1), 3.5f, wSize.y, (int)p.GetBodyController().GetHealthPercentage());
 
                 rend.DrawCircle(new Ellipse(new RawVector2(headW2S.x, headW2S.y - headSZ - 2), headSZ, headSZ), solidColorBrush, false);
-               //rend.DrawCircle(new Ellipse(new RawVector2(centerX, centerY), 1, 1), solidColorBrush, true); //circle
+                //rend.DrawCircle(new Ellipse(new RawVector2(centerX, centerY), 1, 1), solidColorBrush, true); //circle
                //rend.DrawText(pName, new RawVector2(boxRect.Left, boxRect.Bottom + 1), solidColorBrush, espFont);
                 rend.DrawText(pName + " (" + (int)new_Distance + "m)", new RawVector2(boxRect.Left, boxRect.Bottom + 1), solidColorBrush, espFont);
             }
@@ -639,7 +639,7 @@ namespace SupremeMemCleaner
             }
 
             solidColorBrush.Color = Color.White;
-            TextFormat watermarkFont = new TextFormat(new FontFactory(), "Tahoma", 12f);
+            TextFormat watermarkFont = new TextFormat(new FontFactory(), "Tahoma", 10f);
             rend.DrawText("Players: " + (Players - 1), new RawVector2(5, 5), solidColorBrush, watermarkFont);
             rend.DrawText("Player Scavs: " + PScavs, new RawVector2(5, 20), solidColorBrush, watermarkFont);
             rend.DrawText("Scavs: " + Scavs, new RawVector2(5, 35), solidColorBrush, watermarkFont);
@@ -653,7 +653,7 @@ namespace SupremeMemCleaner
         {
             rend.device = device;
             SolidColorBrush solidColorBrush = new SolidColorBrush(device, SharpDX.Color.Gray);
-            TextFormat espFont = new TextFormat(new FontFactory(), "Tahoma Bold", 10f);
+            TextFormat espFont = new TextFormat(new FontFactory(), "Tahoma Bold", 8f);
             System.Threading.Thread.Sleep(2);
 
             if (LGW == null || GW == null || players == null || FPSCamera == null)
@@ -703,15 +703,16 @@ namespace SupremeMemCleaner
                 UnityEngine.Vector3 headPos = INTERNAL__getPosition(mem.Read<IntPtr>(BoneMatrix + (0x20 + ((int)eHumanBones.HumanHead * 8))), mem);
                 if (!FPSCamera.WorldToScreen(headPos, out headW2S, windowSize))
                     continue;
-                
+
                 //for aimbot
                 float headSZ = 1f;
+
                 double distance = Dist2D(centerX, centerY, headW2S.x, headW2S.y);
                 if (distance < lowDist)
                 {
                     lowDist = distance;
                     aimPosX = headW2S.x;
-                    aimPosY = headW2S.y - (2 * headSZ) - 3;
+                    aimPosY = headW2S.y - (2 * headSZ) - aimCorrection;
                 }
 
                 UnityEngine.Vector2 wSize;
@@ -743,8 +744,8 @@ namespace SupremeMemCleaner
                 rend.RectHealthBar(baseW2S.x - ((wSize.x + 12) / 2), (baseW2S.y - wSize.y - 1), 3.5f, wSize.y, (int)p.GetBodyController().GetHealthPercentage());
 
                 rend.DrawCircle(new Ellipse(new RawVector2(headW2S.x, headW2S.y - headSZ - 2), headSZ, headSZ), solidColorBrush, false);
-                // rend.DrawCircle(new Ellipse(new RawVector2(centerX, centerY), 1, 1), solidColorBrush, true); //circle
-                // rend.DrawText(pName, new RawVector2(boxRect.Left, boxRect.Bottom + 1), solidColorBrush, espFont);
+                //rend.DrawCircle(new Ellipse(new RawVector2(centerX, centerY), 1, 1), solidColorBrush, true); //circle
+                //rend.DrawText(pName, new RawVector2(boxRect.Left, boxRect.Bottom + 1), solidColorBrush, espFont);
                 rend.DrawText(pName, new RawVector2(boxRect.Left, boxRect.Bottom + 1), solidColorBrush, espFont);
             }
 
@@ -757,11 +758,11 @@ namespace SupremeMemCleaner
             }
 
             solidColorBrush.Color = Color.White;
-            TextFormat watermarkFont = new TextFormat(new FontFactory(), "Tahoma", 12f);
+            TextFormat watermarkFont = new TextFormat(new FontFactory(), "Tahoma", 10f);
             rend.DrawText("Players: " + (Players - 1), new RawVector2(5, 5), solidColorBrush, watermarkFont);
-            rend.DrawText("Player Scavs: " + PScavs, new RawVector2(5, 20), solidColorBrush, watermarkFont);
-            rend.DrawText("Scavs: " + Scavs, new RawVector2(5, 35), solidColorBrush, watermarkFont);
-            rend.DrawText("Total: " + totalPlayers, new RawVector2(5, 50), solidColorBrush, watermarkFont);
+            rend.DrawText("Player Scavs: " + PScavs, new RawVector2(5, 15), solidColorBrush, watermarkFont);
+            rend.DrawText("Scavs: " + Scavs, new RawVector2(5, 25), solidColorBrush, watermarkFont);
+            rend.DrawText("Total: " + totalPlayers, new RawVector2(5, 35), solidColorBrush, watermarkFont);
             watermarkFont.Dispose();
             solidColorBrush.Dispose();
             espFont.Dispose();
@@ -818,8 +819,8 @@ namespace SupremeMemCleaner
                 mouse_event(0x0001, (int)(TargetX), (int)(TargetY), 0, 0);
                 return;
             }
-            TargetX /= 3;
-            TargetY /= 3;
+            TargetX /= 2;
+            TargetY /= 2;
             if (Math.Abs(TargetX) < 1)
             {
                 if (TargetX > 0)
@@ -844,5 +845,6 @@ namespace SupremeMemCleaner
             }
             mouse_event(0x0001, (int)TargetX, (int)TargetY, 0, 0);
         }
+
     }
 }

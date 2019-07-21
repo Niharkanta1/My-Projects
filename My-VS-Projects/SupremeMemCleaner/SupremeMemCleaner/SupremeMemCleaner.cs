@@ -171,9 +171,9 @@ namespace SupremeMemCleaner
 
         private Renderer rend = new Renderer();
         internal static bool aimbot = true;
-        internal static bool smooth = false;
-        internal static int aimCorrection;
-
+        internal static bool smooth = true;
+        internal static int aimCorrection = 3;
+        internal static int drawDistance = 220;
         public void ReadWorlds()
         {
             while (Overlay.ingame)
@@ -258,7 +258,7 @@ namespace SupremeMemCleaner
 
                 new_Distance = UnityEngine.Vector3.Distance(players[0].GetMovementContext().GetLocation(), p.GetMovementContext().GetLocation());
 
-                if (baseW2S == new UnityEngine.Vector3(0, 0, baseW2S.z) || new_Distance >= 200 || baseW2S.x > windowSize.x + 150 || baseW2S.x < -150 || baseW2S.y < -150)
+                if (baseW2S == new UnityEngine.Vector3(0, 0, baseW2S.z) || new_Distance >= drawDistance || baseW2S.x > windowSize.x + 150 || baseW2S.x < -150 || baseW2S.y < -150)
                     continue;
 
                 UnityEngine.Vector3 headPos = INTERNAL__getPosition(mem.Read<IntPtr>(BoneMatrix + (0x20 + ((int)eHumanBones.HumanHead * 8))), mem);
@@ -768,6 +768,134 @@ namespace SupremeMemCleaner
             espFont.Dispose();
         }
 
+        public void Draw_new(WindowRenderTarget device)
+        {
+            rend.device = device;
+            SolidColorBrush solidColorBrush = new SolidColorBrush(device, SharpDX.Color.Gray);
+            TextFormat espFont = new TextFormat(new FontFactory(), "Tahoma Bold", 8f);
+            System.Threading.Thread.Sleep(2);
+
+            if (LGW == null || GW == null || players == null || FPSCamera == null)
+                return;
+
+            UnityEngine.Vector3 LocalLocation = new UnityEngine.Vector3();
+
+            int Players = 0, Scavs = 0, PScavs = 0, totalPlayers = players.Length - 1;
+
+            double lowDist = lowDistMax;
+            float aimPosX = centerX, aimPosY = centerY;
+
+            foreach (Player p in players)
+            {
+                bool Local = p.IsLocal();
+                local = p;
+
+                PlayerProfile pProfile = p.GetPlayerProfile();
+                bool IsPlayer = pProfile.IsPlayer();
+                PlayerInfo pInfo = pProfile.GetPlayerInfo();
+
+                if (p == null && pInfo.GetName().Equals(user))
+                    continue;
+
+                IntPtr BoneMatrix = p.GetBoneMatrix();
+
+                if (Local)
+                {
+                    LocalLocation = INTERNAL__getPosition(mem.Read<IntPtr>(BoneMatrix + (0x20 + ((int)eHumanBones.HumanBase * 8))), mem);
+                }
+
+                UnityEngine.Vector3 Location = INTERNAL__getPosition(mem.Read<IntPtr>(BoneMatrix + (0x20 + ((int)eHumanBones.HumanBase * 8))), mem);
+                if (Location == new UnityEngine.Vector3(0, 0, Location.z))
+                    continue;
+
+                int RegisterDate = pInfo.GetRegistrationDate();
+
+                if (IsPlayer == false)
+                {
+                    if (RegisterDate != 0)
+                        PScavs++;
+                    else
+                        Scavs++;
+                }
+                else
+                    Players++;
+
+                float _Distance = UnityEngine.Vector3.Distance(Location, LocalLocation);
+
+                UnityEngine.Vector3 baseW2S, headW2S;
+                if (!FPSCamera.WorldToScreen(Location, out baseW2S, windowSize))
+                    continue;
+
+                if (baseW2S == new UnityEngine.Vector3(0, 0, baseW2S.z) || _Distance >= drawDistance || baseW2S.x > windowSize.x + 150 || baseW2S.x < -150 || baseW2S.y < -150)
+                    continue;
+
+                UnityEngine.Vector3 headPos = INTERNAL__getPosition(mem.Read<IntPtr>(BoneMatrix + (0x20 + ((int)eHumanBones.HumanHead * 8))), mem);
+                if (!FPSCamera.WorldToScreen(headPos, out headW2S, windowSize))
+                    continue;
+
+                //for aimbot
+                float headSZ = 1f;
+
+                double distance2d = Dist2D(centerX, centerY, headW2S.x, headW2S.y);
+                if (distance2d < lowDist )
+                {
+                    lowDist = distance2d;
+                    aimPosX = headW2S.x;
+                    aimPosY = headW2S.y - (2 * headSZ) - aimCorrection;
+                }
+
+                UnityEngine.Vector2 wSize;
+                wSize.y = Math.Abs(headW2S.y - baseW2S.y) * 1.3f;
+                wSize.x = (wSize.y / 1.7f);
+                System.Drawing.Rectangle boxRect = new System.Drawing.Rectangle((int)(baseW2S.x - (wSize.x / 2)), (int)(baseW2S.y - wSize.y), (int)wSize.x, (int)wSize.y);
+                rend.DrawBoxESP(solidColorBrush, boxRect);
+
+                string pName = "N/A";
+                if (IsPlayer == false)
+                {
+                    if (RegisterDate != 0)
+                    {
+                        pName = "PScav";
+                    }
+                    else
+                    {
+                        pName = pInfo.IfIsScavBoss(pInfo.GetName()); //returns "Scav" or Boss Name;
+                    }
+                }
+                else
+                {
+                    Players++;
+                    pName = pInfo.GetName();
+                }
+
+                solidColorBrush.Color = Color.White;
+                if (_Distance <= 100f)
+                    rend.RectHealthBar(baseW2S.x - ((wSize.x + 12) / 2), (baseW2S.y - wSize.y - 1), 3.5f, wSize.y, (int)p.GetBodyController().GetHealthPercentage());
+
+                rend.DrawCircle(new Ellipse(new RawVector2(headW2S.x, headW2S.y - headSZ - 2), headSZ, headSZ), solidColorBrush, false);
+                rend.DrawText(pName+"("+(int)_Distance+"m)", new RawVector2(boxRect.Left, boxRect.Bottom + 1), solidColorBrush, espFont);
+            }
+
+            if (aimbot)
+            {
+                if (GetAsyncKeyState(System.Windows.Forms.Keys.RButton) != 0)
+                {
+                    AimAtPos(aimPosX, aimPosY);
+                }
+            }
+
+            solidColorBrush.Color = Color.White;
+            TextFormat watermarkFont = new TextFormat(new FontFactory(), "Tahoma", 10f);
+            rend.DrawText("Players: " + (Players - 1), new RawVector2(5, 5), solidColorBrush, watermarkFont);
+            rend.DrawText("Player Scavs: " + PScavs, new RawVector2(5, 15), solidColorBrush, watermarkFont);
+            rend.DrawText("Scavs: " + Scavs, new RawVector2(5, 25), solidColorBrush, watermarkFont);
+            rend.DrawText("Total: " + totalPlayers, new RawVector2(5, 35), solidColorBrush, watermarkFont);
+            watermarkFont.Dispose();
+            solidColorBrush.Dispose();
+            espFont.Dispose();
+        }
+
+
         private double Dist2D(float centerX, float centerY, float x, float y)
         {
 
@@ -819,8 +947,8 @@ namespace SupremeMemCleaner
                 mouse_event(0x0001, (int)(TargetX), (int)(TargetY), 0, 0);
                 return;
             }
-            TargetX /= 2;
-            TargetY /= 2;
+            TargetX /= 5;
+            TargetY /= 5;
             if (Math.Abs(TargetX) < 1)
             {
                 if (TargetX > 0)

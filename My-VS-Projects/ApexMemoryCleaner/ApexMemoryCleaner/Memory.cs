@@ -51,7 +51,7 @@ namespace ApexMemoryCleaner
                 processHandle = OpenProcess(ProcessAccessFlags.VMRead, false, targetProcess.Id);
 
                 baseAddr = targetProcess.MainModule.BaseAddress;
-
+                Console.WriteLine("base: " + baseAddr.ToInt64());
                 GOM = new GameObjectManager(Read<long>(baseAddr.ToInt64() + 0x1432840), this);
                 logger.Info("Game Object Manager Found !!!");
             }

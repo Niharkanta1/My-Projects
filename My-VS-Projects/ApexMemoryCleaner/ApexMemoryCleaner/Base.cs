@@ -98,10 +98,12 @@ namespace ApexMemoryCleaner
     public class GameObjectManager : BaseClass
     {
         public GameObjectManager(long addr, Memory mem) : base(addr, mem) { }
-
         public long GetFirstActiveObjectAddr()
         {
+            Console.WriteLine("GOM object:" + addr);
+            Console.WriteLine("First object object:" + (addr+0x18));
             return mem.Read<long>(addr + 0x18);
+            
         }
 
         public BaseObject GetFirstActiveObject()

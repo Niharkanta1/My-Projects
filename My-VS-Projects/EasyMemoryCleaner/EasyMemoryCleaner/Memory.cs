@@ -50,6 +50,7 @@ namespace EasyMemoryCleaner
                 processHandle = OpenProcess(ProcessAccessFlags.VMRead, false, targetProcess.Id);
 
                 baseAddr = targetProcess.MainModule.BaseAddress;
+                Console.WriteLine("base: " + Read<long>(baseAddr.ToInt64()));
 
                 GOM = new GameObjectManager(Read<long>(baseAddr.ToInt64() + 0x1432840), this);
                 Console.WriteLine("Game Object Manager Found !!!");

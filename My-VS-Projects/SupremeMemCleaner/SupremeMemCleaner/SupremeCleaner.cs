@@ -7,16 +7,32 @@ namespace SupremeMemCleaner
     public partial class SupremeCleaner : Form
     {
         private String myUser = "DeadW0Lf";
-        private int aimCorrection = 3;
         private Overlay overlay;
         public SupremeCleaner()
         {
             InitializeComponent();
             textBox1.Text = myUser;
-            textBox2.Text = aimCorrection.ToString();
             checkBox3.Enabled = false;
             checkBox4.Checked = true;
             checkBox2.Checked = true;
+
+            //trackbar for AimCorrection
+            trackBar1.Maximum = 10;
+            trackBar1.TickFrequency = 1;
+            trackBar1.LargeChange = 1;
+            trackBar1.SmallChange = 1;
+            trackBar1.Value = 4;
+            label1.Text = "Aim Correction: "+ trackBar1.Value;
+
+            //trackbar for DrawDistance
+            trackBar2.Maximum = 300;
+            trackBar2.Minimum = 140;
+            trackBar2.TickFrequency = 20;
+            trackBar2.LargeChange = 20;
+            trackBar2.SmallChange = 10;
+            trackBar2.Value = 220;
+            label2.Text = "Draw distance(" + trackBar2.Value + "m)";
+
         }
 
         private void Run_Click(object sender, EventArgs e)
@@ -74,26 +90,16 @@ namespace SupremeMemCleaner
             SupremeMemCleaner.playingAsScav = checkBox4.Checked ? true : false;
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            try
-            {
-                aimCorrection = Int32.Parse(textBox2.Text);
-            }
-            catch(Exception abc)
-            {
-                MessageBox.Show("Please enter only numbers.");
-                textBox2.Text = aimCorrection.ToString();
-            }           
-            SupremeMemCleaner.aimCorrection = aimCorrection;
+            label1.Text = "Aim Correction: "+ trackBar1.Value;
+            SupremeMemCleaner.aimCorrection = trackBar1.Value;
         }
 
-        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        private void trackBar2_Scroll(object sender, EventArgs e)
         {
-            if (checkBox2.Checked)
-                textBox2.Text = "9";
-            else
-                textBox2.Text = aimCorrection.ToString();
+            label2.Text = "Draw distance("+ trackBar2.Value + "m)";
+            SupremeMemCleaner.drawDistance = trackBar2.Value;
         }
     }
 }

@@ -183,7 +183,8 @@ namespace DirectX_Renderer
                 }   
                 else
                 {
-                    cheat.DrawWithAimForScav(device);
+                    //cheat.DrawWithAimForScav(device);
+                    cheat.Draw_new(device);
                 }
                 device.EndDraw();
             }

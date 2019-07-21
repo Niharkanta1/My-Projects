@@ -38,10 +38,10 @@
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Overlay_SharpDX";
+            this.Name = "Discord";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "Overlay";
+            this.Text = "";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Black;
             this.Load += new System.EventHandler(this.Overlay_SharpDX_Load);
